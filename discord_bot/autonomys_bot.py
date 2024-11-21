@@ -48,9 +48,11 @@ vers = "Unknown"  # Global variable for version data from utility_run
 status_index = 0  # Index to keep track of current status in the rotation
 status_options = []  # Store the status options
 
-data_fetch_interval = 20  #
-status_change_interval = 17  # 17 seconds for status change -- trying to avoid rate limiting
-discord_update_interval = 17  # 17  seconds for Discord updates-- trying to avoid rate limiting
+data_fetch_interval = 20  # How often to query RPC
+status_change_interval = 17  # trying to avoid rate limiting
+discord_update_interval = 17.5 # trying to avoid rate limiting
+# TODO: separate the nickname and presense messages on separate timer from the actualrotation display.
+
 
 update_in_progress = False  # Flag to track if an update is in progress
 
@@ -221,14 +223,17 @@ async def utility_run():
             unit = "TB" if display_in_tb else "PB"
 
             status_options = [
+                (pledgeText, f"💾 {totPledgedAmt}PB {pledgeEnd} ({pledgedPercent}%) {hasChanged}"),
                 ("Growth " + unit + "/day", f"🌳  1: {past1d:.2f} | 3: {past3d:.2f} | 7: {past7d:.2f}"),
                 # ("Growth", f"7d:  | 30d: {past30d:.2f}"),
-                ("Latest Release", f'🖥️  {vers}'),
-                ("History Size", f"📜 {blockchain_history_size_gb:.3f} GB"),
-                ("Block Height", f"🗃️  #{blockHeight}" if blockHeight else "Unavailable"),
                 (pledgeText, f"💾 {totPledgedAmt}PB {pledgeEnd} ({pledgedPercent}%) {hasChanged}"),
-
+                ("Latest Release", f'🖥️  {vers}'),
+                (pledgeText, f"💾 {totPledgedAmt}PB {pledgeEnd} ({pledgedPercent}%) {hasChanged}"),
+                ("History Size", f"📜 {blockchain_history_size_gb if blockchain_history_size_gb < 1024 else blockchain_history_size_gb / 1024:.3f} {'GB' if blockchain_history_size_gb < 1024 else 'TB'}"),
+                (pledgeText, f"💾 {totPledgedAmt}PB {pledgeEnd} ({pledgedPercent}%) {hasChanged}"),
+                ("Block Height", f"🗃️  #{blockHeight}" if blockHeight else "Unavailable"), 
             ]
+            
             prevPledged = totPledgedAmt
             if testnet:
                 status_options.insert(0, ('👁️ Monitoring', '  Testnet'))
