@@ -1,4 +1,8 @@
 discord.py
-python-dotenv
 aiohttp
+sqlalchemy
+asyncpg
+python-dotenv
 substrate-interface
+logging
+gc
