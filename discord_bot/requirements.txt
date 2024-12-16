@@ -1,6 +1,4 @@
-discord.py==2.4.0
-aiohttp==3.11.10
-sqlalchemy==2.0.22
-asyncpg==0.28.0
-python-dotenv==1.0.0
-substrate-interface==1.2.3
+discord.py
+python-dotenv
+aiohttp
+substrate-interface
