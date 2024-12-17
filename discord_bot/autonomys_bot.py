@@ -37,7 +37,7 @@ if not DATABASE_URL:
 
 node_url = "http://rpc-0.tau1.subspace.network/" if testnet else "http://rpc.mainnet.subspace.foundation"
 data_fetch_interval = 130
-status_change_interval = 14
+status_change_interval = 15
 
 # Global state
 class BotState:
